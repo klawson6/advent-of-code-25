@@ -70,8 +70,7 @@ func evalStr(str string) bool {
 	length := len(str)
 	for chunkLength := 1; chunkLength <= length/2; chunkLength++ {
 		if length%chunkLength == 0 {
-			numChunks := length / chunkLength
-			if walkStr(str, chunkLength, numChunks) {
+			if walkStr(str, chunkLength) {
 				return true
 			}
 		}
@@ -79,10 +78,9 @@ func evalStr(str string) bool {
 	return false
 }
 
-func walkStr(str string, chunkLength int, numChunks int) bool {
-	fmt.Printf("Walking %s Chunks %d Chunk Size %d\n", str, numChunks, chunkLength)
-	for j := 0; j < numChunks-1; j++ {
-		if str[j:j+chunkLength] != str[(j+1)*chunkLength:((j+1)*chunkLength)+chunkLength] {
+func walkStr(str string, chunkLength int) bool {
+	for j := 0; j < len(str)-chunkLength; j = j + chunkLength {
+		if str[j:j+chunkLength] != str[(j+chunkLength):(j+2*chunkLength)] {
 			return false
 		}
 	}
